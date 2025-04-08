@@ -14,7 +14,7 @@ public class Particle extends Rectangle {
      * */
     private double spin, charge, mass, radius;
     private Color color;
-    private String quarkComposition; // New property for subatomic particles
+    private QuarkComposition quarkComposition; // New property for subatomic particles
 
     private int x, y; // Coordinates for the particle
 
@@ -110,7 +110,7 @@ public class Particle extends Rectangle {
      * @param color             The color of the particle.
      * @param quarkComposition The quark composition of the particle.
      */
-    protected Particle(double spin, double charge, double mass, double radius, Color color, String quarkComposition) {
+    protected Particle(double spin, double charge, double mass, double radius, Color color, QuarkComposition quarkComposition) {
         this.spin = spin;
         this.charge = charge;
         this.mass = mass;
@@ -215,7 +215,7 @@ public class Particle extends Rectangle {
      *
      * @return The quark composition of the particle.
      * */
-    public String getQuarkComposition() {
+    public QuarkComposition getQuarkComposition() {
         return quarkComposition;
     }
 
@@ -224,7 +224,7 @@ public class Particle extends Rectangle {
      *
      * @param quarkComposition The quark composition of the particle.
      * */
-    public void setQuarkComposition(String quarkComposition) {
+    public void setQuarkComposition(QuarkComposition quarkComposition) {
         this.quarkComposition = quarkComposition;
     }
 
@@ -263,5 +263,15 @@ public class Particle extends Rectangle {
      * */
     public void setY(int y) {
         this.y = y;
+    }
+
+    /**
+     * Paints the particle on the screen.
+     *
+     * @param g The graphics context to paint on.
+     * */
+    public void paint(Graphics g) {
+        g.setColor(color);
+        g.fillOval(x, y, (int) radius, (int) radius);
     }
 }
