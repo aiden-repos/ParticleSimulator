@@ -14,18 +14,27 @@ public class Particle extends Rectangle {
      * */
     private double spin, charge, mass, radius;
     private Color color;
-    private QuarkComposition quarkComposition; // New property for subatomic particles
+    private QuarkComposition quarkComposition;
 
-    private int x, y; // Coordinates for the particle
+    private double x, y;
+    private double vx, vy;
 
     /**
-     * Default constructor for the Particle class.
+     * Default constructor for the Particle class. Initializes a particle with default values.
+     *
+     * <p>
+     *     Can only be used by subclasses of Particle.
+     * </p>
      */
     protected Particle() {
     }
 
     /**
-     * Constructor for the Particle class with spin.
+     * Constructor for the Particle class with spin. Initializes a particle with a specified spin.
+     *
+     * <p>
+     *     Can only be used by subclasses of Particle.
+     * </p>
      *
      * @param spin The spin of the particle.
      */
@@ -38,7 +47,11 @@ public class Particle extends Rectangle {
     }
 
     /**
-     * Constructor for the Particle class with spin and charge.
+     * Constructor for the Particle class with spin and charge. Initializes a particle with specified spin and charge.
+     *
+     * <p>
+     *     Can only be used by subclasses of Particle.
+     * </p>
      *
      * @param spin   The spin of the particle.
      * @param charge The charge of the particle.
@@ -52,7 +65,11 @@ public class Particle extends Rectangle {
     }
 
     /**
-     * Constructor for the Particle class with spin, charge, and mass.
+     * Constructor for the Particle class with spin, charge, and mass. Initializes a particle with specified spin, charge, and mass.
+     *
+     * <p>
+     *     Can only be used by subclasses of Particle.
+     * </p>
      *
      * @param spin   The spin of the particle.
      * @param charge The charge of the particle.
@@ -67,7 +84,11 @@ public class Particle extends Rectangle {
     }
 
     /**
-     * Constructor for the Particle class with spin, charge, mass, and radius.
+     * Constructor for the Particle class with spin, charge, mass, and radius. Initializes a particle with specified spin, charge, mass, and radius.
+     *
+     * <p>
+     *     Can only be used by subclasses of Particle.
+     * </p>
      *
      * @param spin   The spin of the particle.
      * @param charge The charge of the particle.
@@ -83,7 +104,11 @@ public class Particle extends Rectangle {
     }
 
     /**
-     * Constructor for the Particle class with spin, charge, mass, radius, and color.
+     * Constructor for the Particle class with spin, charge, mass, radius, and color. Initializes a particle with specified spin, charge, mass, radius, and color.
+     *
+     * <p>
+     *     Can only be used by subclasses of Particle.
+     * </p>
      *
      * @param spin   The spin of the particle.
      * @param charge The charge of the particle.
@@ -101,7 +126,11 @@ public class Particle extends Rectangle {
 
 
     /**
-     * Constructor for the Particle class with spin, charge, mass, radius, color, quark composition.
+     * Constructor for the Particle class with spin, charge, mass, radius, color, quark composition. Initializes a particle with specified spin, charge, mass, radius, color, and quark composition.
+     *
+     * <p>
+     *     Can only be used by subclasses of Particle.
+     * </p>
      *
      * @param spin              The spin of the particle.
      * @param charge            The charge of the particle.
@@ -120,7 +149,7 @@ public class Particle extends Rectangle {
     }
 
     /**
-     * Returns the spin of the particle.
+     * Gets the spin of the particle.
      *
      * @return The spin of the particle.
      *
@@ -266,12 +295,81 @@ public class Particle extends Rectangle {
     }
 
     /**
+     * Gets the x velocity of the particle.
+     *
+     * @return The x velocity of the particle.
+     * */
+    public double getVx() {
+        return vx;
+    }
+
+    /**
+     * Sets the x velocity of the particle.
+     *
+     * @param vx The x velocity of the particle.
+     * */
+    public void setVx(double vx) {
+        this.vx = vx;
+    }
+
+    /**
+     * Gets the y velocity of the particle.
+     *
+     * @return The y velocity of the particle.
+     * */
+    public double getVy() {
+        return vy;
+    }
+
+    /**
+     * Sets the y velocity of the particle.
+     *
+     * @param vy The y velocity of the particle.
+     * */
+    public void setVy(double vy) {
+        this.vy = vy;
+    }
+
+    /**
+     * Updates the position and velocity of the particle through the application of forces.
+     *
+     * <p>
+     * Updates the particle's position by utilizing Newton's second law of motion (F = ma).
+     * </p>
+     *
+     * <p>
+     * Acceleration is force divided by mass according to F = ma.
+     * Velocity is updated using this kinematic: vf = vi + a * deltaTime.
+     * Position is updated using this kinematic: xf = xi + vi * deltaTime.
+     * </p>
+     *
+     * @param forceX    The force applied in the x-direction.
+     * @param forceY    The force applied in the y-direction.
+     * @param deltaTime The change in time over which the update occurs.
+     */
+    public void update(double forceX, double forceY, double deltaTime) {
+        // Since F = ma, then F/m = a, in which vf = vi + a*t
+        vx += (forceX / mass) * deltaTime;
+        vy += (forceY / mass) * deltaTime;
+
+        // xf = xi + vi*t
+        x += vx * deltaTime;
+        y += vy * deltaTime;
+
+        System.out.println("Particle position: (" + x + ", " + y + ")");
+    }
+
+    /**
      * Paints the particle on the screen.
      *
-     * @param g The graphics context to paint on.
+     * <p>
+     *     This method should only be used in the context of a GUI application, as it requires Graphics.
+     * </p>
+     *
+     * @param g The Graphics object to paint on.
      * */
     public void paint(Graphics g) {
         g.setColor(color);
-        g.fillOval(x, y, (int) radius, (int) radius);
+        g.fillOval((int) x, (int) y, (int) radius * 10, (int) radius * 10);
     }
 }
