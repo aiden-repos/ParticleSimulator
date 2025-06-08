@@ -2,16 +2,10 @@ package Particles;
 
 import java.awt.*;
 
+/**
+ * Base class for particles.
+ */
 public class Particle extends Rectangle {
-    /*
-     * Spin, Charge, and Mass are inherit properties of a Particle.
-     *
-     * Radius and Color are aesthetic, and will be used to be able to differentiate particles on the screen.
-     *
-     * The quark composition is a new property added to represent the internal structure of subatomic particles.
-     *
-     * The x and y coordinates are used to represent the position of the particle in a 2D space.
-     * */
     private double spin, charge, mass, radius;
     private Color color;
     private QuarkComposition quarkComposition;
@@ -27,6 +21,12 @@ public class Particle extends Rectangle {
      * </p>
      */
     protected Particle() {
+        this.spin = 0.5;
+        this.charge = 0;
+        this.mass = 0;
+        this.radius = 1;
+        this.color = Color.WHITE;
+        this.quarkComposition = null;
     }
 
     /**
@@ -40,10 +40,11 @@ public class Particle extends Rectangle {
      */
     protected Particle(double spin) {
         this.spin = spin;
-        this.charge = 0; // Default charge for a particle without specified charge
-        this.mass = 0;   // Default mass for a particle without specified mass
-        this.radius = 1; // Default radius for visualization purposes
-        this.color = Color.WHITE; // Default color for visualization purposes
+        this.charge = 0;
+        this.mass = 0;
+        this.radius = 1;
+        this.color = Color.WHITE;
+        this.quarkComposition = null;
     }
 
     /**
@@ -59,9 +60,10 @@ public class Particle extends Rectangle {
     protected Particle(double spin, double charge) {
         this.spin = spin;
         this.charge = charge;
-        this.mass = 0;   // Default mass for a particle without specified mass
-        this.radius = 1; // Default radius for visualization purposes
-        this.color = Color.WHITE; // Default color for visualization purposes
+        this.mass = 0;
+        this.radius = 1;
+        this.color = Color.WHITE;
+        this.quarkComposition = null;
     }
 
     /**
@@ -79,8 +81,9 @@ public class Particle extends Rectangle {
         this.spin = spin;
         this.charge = charge;
         this.mass = mass;
-        this.radius = 1; // Default radius for visualization purposes
-        this.color = Color.WHITE; // Default color for visualization purposes
+        this.radius = 1;
+        this.color = Color.WHITE;
+        this.quarkComposition = null;
     }
 
     /**
@@ -100,7 +103,8 @@ public class Particle extends Rectangle {
         this.charge = charge;
         this.mass = mass;
         this.radius = radius;
-        this.color = Color.WHITE; // Default color for visualization purposes
+        this.color = Color.WHITE;
+        this.quarkComposition = null;
     }
 
     /**
@@ -122,6 +126,7 @@ public class Particle extends Rectangle {
         this.mass = mass;
         this.radius = radius;
         this.color = color;
+        this.quarkComposition = null;
     }
 
 
@@ -258,6 +263,15 @@ public class Particle extends Rectangle {
     }
 
     /**
+     * Returns a label to display inside the particle.
+     *
+     * @return A string label representing the particle type.
+     */
+    public String getLabel() {
+        return getClass().getSimpleName().substring(0, 1).toUpperCase();
+    }
+
+    /**
      * Gets the x coordinate of the particle.
      *
      * @return The x coordinate of the particle.
@@ -331,7 +345,7 @@ public class Particle extends Rectangle {
     }
 
     /**
-     * Updates the position and velocity of the particle through the application of forces.
+     * Updates the position and velocity of the particle.
      *
      * <p>
      * Updates the particle's position by utilizing Newton's second law of motion (F = ma).
@@ -348,28 +362,40 @@ public class Particle extends Rectangle {
      * @param deltaTime The change in time over which the update occurs.
      */
     public void update(double forceX, double forceY, double deltaTime) {
-        // Since F = ma, then F/m = a, in which vf = vi + a*t
         vx += (forceX / mass) * deltaTime;
         vy += (forceY / mass) * deltaTime;
-
-        // xf = xi + vi*t
         x += vx * deltaTime;
         y += vy * deltaTime;
-
-        System.out.println("Particle position: (" + x + ", " + y + ")");
     }
 
     /**
      * Paints the particle on the screen.
      *
      * <p>
-     *     This method should only be used in the context of a GUI application, as it requires Graphics.
+     *     This method should only be used in the context of a GUI application, as it requires Graphics (obviously).
      * </p>
      *
      * @param g The Graphics object to paint on.
      * */
     public void paint(Graphics g) {
         g.setColor(color);
-        g.fillOval((int) x, (int) y, (int) radius * 10, (int) radius * 10);
+        int diameter = (int) Math.round(radius * 10);
+        int drawX = (int) Math.round(x - diameter / 2.0);
+        int drawY = (int) Math.round(y - diameter / 2.0);
+        g.fillOval(drawX, drawY, diameter, diameter);
+
+        String label = getLabel();
+        Font originalFont = g.getFont();
+        float fontSize = diameter / 2f;
+        Font font = originalFont.deriveFont(fontSize);
+        g.setFont(font);
+        FontMetrics fm = g.getFontMetrics();
+        int textWidth = fm.stringWidth(label);
+        int textHeight = fm.getAscent();
+        int textX = drawX + (diameter - textWidth) / 2;
+        int textY = drawY + (diameter + textHeight) / 2 - fm.getDescent();
+        g.setColor(Color.BLACK);
+        g.drawString(label, textX, textY);
+        g.setFont(originalFont);
     }
 }

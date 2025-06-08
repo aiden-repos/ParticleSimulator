@@ -1,5 +1,10 @@
 package Particles;
 
+/**
+ * Represents the quark composition of a particle, holding counts of each quark type.
+ * 
+ * NO CURRENT USES.
+ */
 public class QuarkComposition {
     private int up;
     private int down;
@@ -142,13 +147,6 @@ public class QuarkComposition {
      */
     @Override
     public String toString() {
-        return "QuarkComposition [" +
-                "up=" + up +
-                ", down=" + down +
-                ", charm=" + charm +
-                ", strange=" + strange +
-                ", top=" + top +
-                ", bottom=" + bottom +
-                ']';
+        return "QuarkComposition [" + "up=" + up + ", down=" + down + ", charm=" + charm + ", strange=" + strange + ", top=" + top + ", bottom=" + bottom + "]";
     }
 }
