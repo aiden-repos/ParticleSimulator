@@ -15,10 +15,10 @@ public class MainWindow extends JFrame {
      */
     public MainWindow() {
         setTitle("Particle Simulator");
-        setSize(900, 1000);
+        setSize(900, 800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setResizable(false);
+        setResizable(true);
         setBackground(Color.darkGray);
 
         panel = new Panel(this);
@@ -29,7 +29,7 @@ public class MainWindow extends JFrame {
         JPanel controls = new JPanel();
         controls.setBackground(Color.lightGray);
         
-        controls.setPreferredSize(new java.awt.Dimension(getWidth(), 80));
+        controls.setPreferredSize(new Dimension(0, 80));
         controls.setLayout(new FlowLayout());
 
         createControl(controls, "Electrons", panel::addElectrons);
