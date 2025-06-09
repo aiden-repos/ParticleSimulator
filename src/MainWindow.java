@@ -24,6 +24,14 @@ public class MainWindow extends JFrame {
         panel = new Panel(this);
 
         setLayout(new BorderLayout());
+
+        JPanel topControls = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        topControls.setBackground(Color.lightGray);
+        JButton clearButton = new JButton("Clear");
+        clearButton.addActionListener(e -> panel.clearParticles());
+        topControls.add(clearButton);
+        add(topControls, BorderLayout.NORTH);
+
         add(panel, BorderLayout.CENTER);
 
         JPanel controls = new JPanel();

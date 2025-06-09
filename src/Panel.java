@@ -111,4 +111,11 @@ public class Panel extends JPanel {
     public void addMuons(int count) {
         addParticles(Muon::new, count);
     }
+
+    /**
+     * Clears all particles from the simulation.
+     */
+    public void clearParticles() {
+        particles.clear();
+    }
 }
